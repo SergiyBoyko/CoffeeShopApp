@@ -30,6 +30,13 @@ dependencies {
     // butter knife support
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // retrofit2 support
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     
     testCompile 'junit:junit:4.12'
 }

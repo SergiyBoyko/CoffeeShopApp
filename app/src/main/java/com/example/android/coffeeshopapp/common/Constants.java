@@ -5,4 +5,7 @@ package com.example.android.coffeeshopapp.common;
  */
 
 public class Constants {
+
+    public static final String COFFEE_SHOP_TEST_API = "https://coffee-shop-test.herokuapp.com";
+
 }

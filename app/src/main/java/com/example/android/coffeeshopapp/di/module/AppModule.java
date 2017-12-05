@@ -17,7 +17,7 @@ import dagger.Provides;
  */
 
 @Module
-public class AppModule {
+public final class AppModule {
 
     private Context context;
 

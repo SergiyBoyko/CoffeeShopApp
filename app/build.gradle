@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+//Retro lambda
+apply plugin: 'me.tatarka.retrolambda'
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
@@ -17,6 +20,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+retrolambda {
+    defaultMethods false
+    incremental true
 }
 
 dependencies {

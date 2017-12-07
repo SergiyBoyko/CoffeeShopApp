@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 //Retro lambda
 apply plugin: 'me.tatarka.retrolambda'
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
@@ -58,6 +60,8 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     // multidex support
     compile 'com.android.support:multidex:1.0.1'
+    // firebase-crash support
+    compile 'com.google.firebase:firebase-crash:10.0.1'
 
     testCompile 'junit:junit:4.12'
 }

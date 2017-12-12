@@ -1,5 +1,6 @@
 package com.example.android.coffeeshopapp.di.component;
 
+import com.example.android.coffeeshopapp.model.ITransactionDataSource;
 import com.example.android.coffeeshopapp.model.IUserInfoDataSource;
 
 import retrofit2.Retrofit;
@@ -13,5 +14,7 @@ public interface ApiComponent {
     Retrofit retrofit();
 
     IUserInfoDataSource userInfoDataSource();
+
+    ITransactionDataSource transactionDataSource();
 
 }

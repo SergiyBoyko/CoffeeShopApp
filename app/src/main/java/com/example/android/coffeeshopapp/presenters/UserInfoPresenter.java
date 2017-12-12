@@ -1,11 +1,14 @@
 package com.example.android.coffeeshopapp.presenters;
 
+import android.widget.Toast;
+
 import com.example.android.coffeeshopapp.model.IUserInfoDataSource;
-import com.example.android.coffeeshopapp.utils.rx.RxErrorAction;
 import com.example.android.coffeeshopapp.utils.rx.RxRetryWithDelay;
 import com.example.android.coffeeshopapp.views.UserInfoView;
 
-import rx.Observable;
+import java.io.IOException;
+
+import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -26,7 +29,18 @@ public class UserInfoPresenter extends BasePresenter<UserInfoView> {
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getView()::onVerifySuccess, new RxErrorAction(getView().getContext()))
+                .subscribe(getView()::onVerifySuccess, throwable -> {
+                    if (throwable instanceof HttpException) {
+                        HttpException httpException = (HttpException) throwable;
+                        String message = httpException.getMessage();
+                        try {
+                            message = httpException.response().errorBody().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        getView().onVerifyFailed(message);
+                    }
+                })
         );
     }
 

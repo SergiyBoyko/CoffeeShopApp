@@ -9,6 +9,7 @@
     <string name="confirm_but">Confirm</string>
     <string name="incorrect_credentials">incorrect credentials</string>
     <string name="network_problems">Problem with Network Connection</string>
+    <string name="too_low_amount">Amount cannot be zero</string>
     <string-array name="actions_array">
         <item>+</item>
         <item>-</item>

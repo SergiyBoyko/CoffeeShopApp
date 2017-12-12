@@ -4,4 +4,11 @@
     <string name="enter_but">Enter</string>
     <string name="enter_card_id_hint">Enter Card id</string>
     <string name="logo_text">CoffeeShop</string>
+    <string name="deduct_but">Deduct</string>
+    <string name="refund_but">Refund</string>
+    <string name="confirm_but">Confirm</string>
+    <string-array name="actions_array">
+        <item>+</item>
+        <item>-</item>
+    </string-array>
 </resources>

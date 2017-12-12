@@ -3,6 +3,7 @@ package com.example.android.coffeeshopapp.di.component;
 import com.example.android.coffeeshopapp.di.module.PresentersModule;
 import com.example.android.coffeeshopapp.di.scope.Scope;
 import com.example.android.coffeeshopapp.di.scope.Scopes;
+import com.example.android.coffeeshopapp.ui.activities.MainActivity;
 
 import dagger.Component;
 
@@ -16,4 +17,7 @@ import dagger.Component;
         dependencies = {AppComponent.class}
 )
 public interface PresentersComponent {
+
+    void inject(MainActivity mainActivity);
+
 }

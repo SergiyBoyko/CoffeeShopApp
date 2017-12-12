@@ -1,12 +1,12 @@
-package com.example.android.coffeeshopapp.ui.activity;
+package com.example.android.coffeeshopapp.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.KeyListener;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.azimolabs.keyboardwatcher.KeyboardWatcher;
 import com.example.android.coffeeshopapp.R;
+import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,8 +29,13 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
     @BindView(R.id.button_show_ime)
     ImageButton buttonShowIme;
 
+    @BindView(R.id.but_enter)
+    Button enterButton;
+
     private KeyListener originalKeyListener;
     private KeyboardWatcher keyboardWatcher;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,21 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         // Set MainActivity as listener for keyboard
         keyboardWatcher = new KeyboardWatcher(this);
         keyboardWatcher.setListener(this);
+
+        enterButton.setOnClickListener(v -> {
+            login();
+
+            // hide keyboard if its possible
+//            if (getCurrentFocus() != null) {
+//                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+//                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+//                lockKeyboard();
+//            }
+        });
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Verifying...");
     }
 
     @Override
@@ -79,6 +100,28 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         // Show soft keyboard for the user to enter the value.
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    private void login() {
+
+        if (editText.length() == 0) {
+//            onLoginFailed(getResources().getString(R.string.incorrect_credentials));
+            showText("incorrect_credentials");
+            return;
+        } else if (!InternetConnectivityUtil.isConnected(this)) {
+//            onLoginFailed(getResources().getString(R.string.network_problems));
+            showText("network_problems");
+            return;
+        }
+
+        enterButton.setEnabled(false);
+
+        progressDialog.show();
+
+//        String username = usernameText.getText().toString();
+//        String password = passwordText.getText().toString();
+//
+//        presenter.login(username, password);
     }
 
     private void lockKeyboard() {

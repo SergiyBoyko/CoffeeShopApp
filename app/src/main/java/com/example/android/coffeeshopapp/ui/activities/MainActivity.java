@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.KeyListener;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
     @BindView(R.id.but_enter)
     Button enterButton;
 
+    @BindView(R.id.view_all_trans_but)
+    Button viewAllTransButton;
+
     @Inject
     UserInfoPresenter presenter;
 
@@ -58,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-
 
         DaggerPresentersComponent.builder()
                 .appComponent(getAppComponent())
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
 //                lockKeyboard();
 //            }
         });
+        viewAllTransButton.setOnClickListener(view -> startTransactionActivity());
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
@@ -142,6 +146,13 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
 
         startActivity(intent);
     }
+
+    private void startTransactionActivity() {
+        Intent intent = new Intent(this, TransactionsActivity.class);
+        intent.putExtra(Constants.PURCHASE_LIST, Constants.ALL_USERS);
+        startActivity(intent);
+    }
+
 
     private void login() {
 

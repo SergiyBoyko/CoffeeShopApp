@@ -33,7 +33,7 @@ public class TransactionPresenter extends BasePresenter<TransactionView> {
                     try {
                         getView().transactionSuccess(responseBody.string());
                     } catch (IOException e) {
-                        getView().transactionSuccess("null");
+                        getView().transactionFailed("null");
                         e.printStackTrace();
                     }
                 }, throwable -> {

@@ -2,9 +2,11 @@ package com.example.android.coffeeshopapp.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.KeyListener;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import com.example.android.coffeeshopapp.di.component.AppComponent;
 import com.example.android.coffeeshopapp.di.component.DaggerPresentersComponent;
 import com.example.android.coffeeshopapp.di.module.PresentersModule;
 import com.example.android.coffeeshopapp.presenters.TransactionPresenter;
+import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
 import com.example.android.coffeeshopapp.views.TransactionView;
 
 import java.util.Locale;
@@ -47,6 +50,8 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
     TextView cardIdView;
     @BindView(R.id.card_balance)
     TextView balanceView;
+    @BindView(R.id.view_user_trans_but)
+    Button viewUserTransButton;
 
     @Inject
     TransactionPresenter presenter;
@@ -74,8 +79,10 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
         presenter.setView(this);
 
-        cardId = getIntent().getLongExtra(Constants.CARD_ID, 0);
-        balance = getIntent().getDoubleExtra(Constants.BALANCE, 0);
+//        cardId = getIntent().getLongExtra(Constants.CARD_ID, 0);
+//        balance = getIntent().getDoubleExtra(Constants.BALANCE, 0);
+        cardId = 111222;
+        balance = 100.10;
 
         cardIdView.setText(String.valueOf(cardId));
         balanceView.setText(String.format(Locale.ENGLISH, "%.2f", balance));
@@ -106,6 +113,13 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 //            }
         });
 
+        viewUserTransButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startTransactionActivity();
+            }
+        });
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Verifying...");
@@ -113,8 +127,6 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
     @Override
     public void transactionSuccess(String message) {
-        transactionButton.setEnabled(true);
-        progressDialog.hide();
         showText(message);
         presenter.getBalance(cardId);
     }
@@ -129,6 +141,8 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
     @Override
     public void reloadBalance(double balance) {
         balanceView.setText(String.format(Locale.ENGLISH, "%.2f", balance));
+        transactionButton.setEnabled(true);
+        progressDialog.hide();
     }
 
     @Override
@@ -172,6 +186,11 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
 
     private void confirm() {
+        if (!InternetConnectivityUtil.isConnected(this)) {
+            transactionFailed(getResources().getString(R.string.network_problems));
+            return;
+        }
+
         String intPart = intPartText.getText().length() == 0 ? "0" : intPartText.getText().toString();
         String fractPart = fractPartText.getText().length() == 0 ? "0" : fractPartText.getText().toString();
         String amount = intPart + "." + fractPart;
@@ -184,5 +203,12 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
             progressDialog.show();
             transactionFailed(getString(R.string.too_low_amount));
         }
+    }
+
+    private void startTransactionActivity() {
+        Intent intent = new Intent(this, TransactionsActivity.class);
+        intent.putExtra(Constants.PURCHASE_LIST, Constants.CONCRETE_USER);
+        intent.putExtra(Constants.CARD_ID, cardId);
+        startActivity(intent);
     }
 }

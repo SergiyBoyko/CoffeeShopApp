@@ -2,9 +2,13 @@ package com.example.android.coffeeshopapp.di.module;
 
 import com.example.android.coffeeshopapp.api.CoffeeShopApi;
 import com.example.android.coffeeshopapp.common.Constants;
+import com.example.android.coffeeshopapp.model.IRefundDataSource;
 import com.example.android.coffeeshopapp.model.ITransactionDataSource;
+import com.example.android.coffeeshopapp.model.ITransactionsListDataSource;
 import com.example.android.coffeeshopapp.model.IUserInfoDataSource;
+import com.example.android.coffeeshopapp.model.remote.RefundRemoteDataSource;
 import com.example.android.coffeeshopapp.model.remote.TransactionRemoteDataSource;
+import com.example.android.coffeeshopapp.model.remote.TransactionsListRemoteDataSource;
 import com.example.android.coffeeshopapp.model.remote.UserInfoRemoteDataSource;
 
 import javax.inject.Singleton;
@@ -42,6 +46,18 @@ public class ApiModule {
     @Singleton
     ITransactionDataSource provideTransactionDataSource(Retrofit retrofit) {
         return new TransactionRemoteDataSource(retrofit.create(CoffeeShopApi.class));
+    }
+
+    @Provides
+    @Singleton
+    ITransactionsListDataSource provideTransactionListDataSource(Retrofit retrofit) {
+        return new TransactionsListRemoteDataSource(retrofit.create(CoffeeShopApi.class));
+    }
+
+    @Provides
+    @Singleton
+    IRefundDataSource provideRefundDataSource(Retrofit retrofit) {
+        return new RefundRemoteDataSource(retrofit.create(CoffeeShopApi.class));
     }
 
 }

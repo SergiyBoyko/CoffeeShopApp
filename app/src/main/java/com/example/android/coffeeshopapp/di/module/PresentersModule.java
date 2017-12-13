@@ -2,8 +2,12 @@ package com.example.android.coffeeshopapp.di.module;
 
 import com.example.android.coffeeshopapp.di.scope.Scope;
 import com.example.android.coffeeshopapp.di.scope.Scopes;
+import com.example.android.coffeeshopapp.model.IRefundDataSource;
 import com.example.android.coffeeshopapp.model.ITransactionDataSource;
+import com.example.android.coffeeshopapp.model.ITransactionsListDataSource;
 import com.example.android.coffeeshopapp.model.IUserInfoDataSource;
+import com.example.android.coffeeshopapp.presenters.RefundPresenter;
+import com.example.android.coffeeshopapp.presenters.TransactionListPresenter;
 import com.example.android.coffeeshopapp.presenters.TransactionPresenter;
 import com.example.android.coffeeshopapp.presenters.UserInfoPresenter;
 
@@ -25,8 +29,20 @@ public class PresentersModule {
 
     @Provides
     @Scope(Scopes.VIEW)
-    public TransactionPresenter provideransactionPresenter(ITransactionDataSource transactionDataSource) {
+    public TransactionPresenter provideTransactionPresenter(ITransactionDataSource transactionDataSource) {
         return new TransactionPresenter(transactionDataSource);
+    }
+
+    @Provides
+    @Scope(Scopes.VIEW)
+    public TransactionListPresenter provideTransactionlistPresenter(ITransactionsListDataSource transactionsListDataSource) {
+        return new TransactionListPresenter(transactionsListDataSource);
+    }
+
+    @Provides
+    @Scope(Scopes.VIEW)
+    public RefundPresenter provideRefundPresenter(IRefundDataSource refundDataSource) {
+        return new RefundPresenter(refundDataSource);
     }
 
 }

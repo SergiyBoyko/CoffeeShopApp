@@ -5,6 +5,7 @@ import com.example.android.coffeeshopapp.di.scope.Scope;
 import com.example.android.coffeeshopapp.di.scope.Scopes;
 import com.example.android.coffeeshopapp.ui.activities.MainActivity;
 import com.example.android.coffeeshopapp.ui.activities.RoomActivity;
+import com.example.android.coffeeshopapp.ui.activities.TransactionsActivity;
 
 import dagger.Component;
 
@@ -22,5 +23,7 @@ public interface PresentersComponent {
     void inject(MainActivity mainActivity);
 
     void inject(RoomActivity roomActivity);
+
+    void inject(TransactionsActivity transactionsActivity);
 
 }

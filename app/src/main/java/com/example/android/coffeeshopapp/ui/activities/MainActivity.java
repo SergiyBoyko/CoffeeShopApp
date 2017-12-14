@@ -87,21 +87,12 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         keyboardWatcher = new KeyboardWatcher(this);
         keyboardWatcher.setListener(this);
 
-        enterButton.setOnClickListener(v -> {
-            login();
-
-            // hide keyboard if its possible
-//            if (getCurrentFocus() != null) {
-//                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-//                lockKeyboard();
-//            }
-        });
+        enterButton.setOnClickListener(v -> login());
         viewAllTransButton.setOnClickListener(view -> startTransactionActivity());
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Verifying...");
+        progressDialog.setMessage(getResources().getString(R.string.verifying_progress));
     }
 
     @Override

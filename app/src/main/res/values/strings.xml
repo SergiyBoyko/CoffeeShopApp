@@ -10,6 +10,15 @@
     <string name="incorrect_credentials">incorrect credentials</string>
     <string name="network_problems">Problem with Network Connection</string>
     <string name="too_low_amount">Amount cannot be zero</string>
+    <string name="verifying_progress">Verifying…</string>
+    <string name="refund_title">Refund</string>
+    <string name="refund_confirm">Confirm Refund</string>
+    <string name="cancel">Cancel</string>
+    <string name="use_dot">Use a dot instead of a comma.</string>
+    <string name="incorrect_value">Incorrect value</string>
+    <string name="print_receipt">Print</string>
+    <string name="close_receipt">Close</string>
+    <string name="receipt_title">"Receipt"</string>
     <string-array name="actions_array">
         <item>+</item>
         <item>-</item>

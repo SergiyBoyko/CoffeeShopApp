@@ -29,14 +29,7 @@ public class TransactionPresenter extends BasePresenter<TransactionView> {
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(responseBody -> {
-                    try {
-                        getView().transactionSuccess(responseBody.string());
-                    } catch (IOException e) {
-                        getView().transactionFailed("null");
-                        e.printStackTrace();
-                    }
-                }, throwable -> {
+                .subscribe(getView()::transactionSuccess, throwable -> {
                     if (throwable instanceof HttpException) {
                         HttpException httpException = (HttpException) throwable;
                         String message = httpException.getMessage();

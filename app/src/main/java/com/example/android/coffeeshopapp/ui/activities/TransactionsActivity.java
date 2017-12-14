@@ -119,6 +119,7 @@ public class TransactionsActivity extends AppCompatActivity
         final EditText edittext = new EditText(getContext());
         edittext.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         edittext.setTextColor(getResources().getColor(R.color.colorDarkGrey));
+        edittext.setHint(getResources().getString(R.string.enter_amount_here));
         alert.setMessage("Enter refund amount for " + cardId);
         alert.setTitle(getResources().getString(R.string.refund_title));
 

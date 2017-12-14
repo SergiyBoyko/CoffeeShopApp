@@ -16,6 +16,7 @@
     <string name="cancel">Cancel</string>
     <string name="use_dot">Use a dot instead of a comma.</string>
     <string name="incorrect_value">Incorrect value</string>
+    <string name="enter_amount_here">Enter amount here</string>
     <string name="print_receipt">Print</string>
     <string name="close_receipt">Close</string>
     <string name="receipt_title">"Receipt"</string>

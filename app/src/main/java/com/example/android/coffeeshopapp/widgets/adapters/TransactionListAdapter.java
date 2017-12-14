@@ -80,7 +80,8 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
 
             refundButton.setOnClickListener(view ->
                     refundClickListener.onRefundClicked(transactionList.get(getAdapterPosition()).getCardId(),
-                            transactionList.get(getAdapterPosition()).getId()));
+                            transactionList.get(getAdapterPosition()).getId(),
+                            transactionList.get(getAdapterPosition()).getPrice()));
         }
 
 
@@ -88,7 +89,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
 
     public interface OnRefundClickListener {
 
-        void onRefundClicked(long cardId, long purchaseId);
+        void onRefundClicked(long cardId, long purchaseId, double amount);
 
     }
 

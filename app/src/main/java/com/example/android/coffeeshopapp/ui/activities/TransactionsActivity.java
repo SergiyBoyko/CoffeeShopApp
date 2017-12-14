@@ -29,6 +29,7 @@ import com.example.android.coffeeshopapp.widgets.adapters.TransactionListAdapter
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -114,13 +115,14 @@ public class TransactionsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRefundClicked(long cardId, long purchaseId) {
+    public void onRefundClicked(long cardId, long purchaseId, double purchaseAmount) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText edittext = new EditText(getContext());
         edittext.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         edittext.setTextColor(getResources().getColor(R.color.colorDarkGrey));
         edittext.setHint(getResources().getString(R.string.enter_amount_here));
-        alert.setMessage("Enter refund amount for " + cardId);
+        alert.setMessage("Enter refund amount for " + cardId +
+                "\nAmount: " + String.format(Locale.ENGLISH, "%.2f", purchaseAmount));
         alert.setTitle(getResources().getString(R.string.refund_title));
 
         alert.setView(edittext);

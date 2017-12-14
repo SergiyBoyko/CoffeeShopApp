@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.KeyListener;
 import android.view.View;
@@ -21,10 +22,13 @@ import com.example.android.coffeeshopapp.common.Constants;
 import com.example.android.coffeeshopapp.di.component.AppComponent;
 import com.example.android.coffeeshopapp.di.component.DaggerPresentersComponent;
 import com.example.android.coffeeshopapp.di.module.PresentersModule;
+import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntity;
 import com.example.android.coffeeshopapp.presenters.TransactionPresenter;
 import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
 import com.example.android.coffeeshopapp.views.TransactionView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -52,6 +56,8 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
     TextView balanceView;
     @BindView(R.id.view_user_trans_but)
     Button viewUserTransButton;
+    @BindView(R.id.upd_button)
+    ImageButton updateBalanceTransButton;
 
     @Inject
     TransactionPresenter presenter;
@@ -79,10 +85,8 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
         presenter.setView(this);
 
-//        cardId = getIntent().getLongExtra(Constants.CARD_ID, 0);
-//        balance = getIntent().getDoubleExtra(Constants.BALANCE, 0);
-        cardId = 111222;
-        balance = 100.10;
+        cardId = getIntent().getLongExtra(Constants.CARD_ID, 0);
+        balance = getIntent().getDoubleExtra(Constants.BALANCE, 0);
 
         cardIdView.setText(String.valueOf(cardId));
         balanceView.setText(String.format(Locale.ENGLISH, "%.2f", balance));
@@ -104,30 +108,35 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
         transactionButton.setOnClickListener(v -> {
             confirm();
-
-            // hide keyboard if its possible
-//            if (getCurrentFocus() != null) {
-//                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-//                lockKeyboard();
-//            }
         });
 
-        viewUserTransButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startTransactionActivity();
-            }
-        });
+        viewUserTransButton.setOnClickListener(view -> startTransactionActivity());
+        updateBalanceTransButton.setOnClickListener(view -> presenter.getBalance(cardId));
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Verifying...");
+        progressDialog.setMessage(getResources().getString(R.string.verifying_progress));
     }
 
     @Override
-    public void transactionSuccess(String message) {
-        showText(message);
+    public void transactionSuccess(PurchaseTransactionEntity transactionEntity) {
+//        showText(message);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
+        showText(String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice()));
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage("CARD ID: " + transactionEntity.getCardId()
+                + "\nAmount: " + transactionEntity.getPrice()
+                + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate())));
+        alert.setTitle(getResources().getString(R.string.receipt_title));
+
+        alert.setPositiveButton(getResources().getString(R.string.print_receipt),
+                (dialog, whichButton) -> showText("Coming soon."));
+
+        alert.setNegativeButton(getResources().getString(R.string.close_receipt), (dialog, whichButton) -> {
+            // what ever you want to do with No option.
+        });
+
+        alert.show();
         presenter.getBalance(cardId);
     }
 
@@ -186,6 +195,9 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
 
     private void confirm() {
+        transactionButton.setEnabled(false);
+        progressDialog.show();
+
         if (!InternetConnectivityUtil.isConnected(this)) {
             transactionFailed(getResources().getString(R.string.network_problems));
             return;
@@ -199,8 +211,6 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         if ((intPartText.length() != 0 || fractPartText.length() != 0) && price > 0) {
             presenter.confirmTransaction(cardId, Double.parseDouble(amount));
         } else {
-            transactionButton.setEnabled(false);
-            progressDialog.show();
             transactionFailed(getString(R.string.too_low_amount));
         }
     }

@@ -1,5 +1,7 @@
 package com.example.android.coffeeshopapp.model;
 
+import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntity;
+
 import okhttp3.ResponseBody;
 import rx.Observable;
 
@@ -9,7 +11,7 @@ import rx.Observable;
 
 public interface ITransactionDataSource {
 
-    Observable<ResponseBody> confirmTransaction(long id, double price);
+    Observable<PurchaseTransactionEntity> confirmTransaction(long id, double price);
 
     Observable<ResponseBody> getBalance(long id);
 }

@@ -35,5 +35,5 @@ public interface CoffeeShopApi {
                                                @Query("price") double price);
 
     @POST("/purchase/buy")
-    Observable<ResponseBody> confirmTransaction(@Query("card_id") long id, @Query("price") double price);
+    Observable<PurchaseTransactionEntity> confirmTransaction(@Query("card_id") long id, @Query("price") double price);
 }

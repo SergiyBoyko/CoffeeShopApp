@@ -2,6 +2,7 @@ package com.example.android.coffeeshopapp.model.remote;
 
 import com.example.android.coffeeshopapp.api.CoffeeShopApi;
 import com.example.android.coffeeshopapp.model.ITransactionDataSource;
+import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntity;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -19,7 +20,7 @@ public class TransactionRemoteDataSource implements ITransactionDataSource {
     }
 
     @Override
-    public Observable<ResponseBody> confirmTransaction(long id, double price) {
+    public Observable<PurchaseTransactionEntity> confirmTransaction(long id, double price) {
         return coffeeShopApi.confirmTransaction(id, price);
     }
 

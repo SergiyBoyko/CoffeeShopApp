@@ -130,6 +130,8 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         showText(String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice()));
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setMessage("CARD ID: " + transactionEntity.getCardId()
+//                + "\nFull Name: " + transactionEntity.getFullName()
+                // TODO: 15.12.2017 wait and add display full name
                 + "\nAmount: " + transactionEntity.getPrice()
                 + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate())));
         alert.setTitle(getResources().getString(R.string.receipt_title));

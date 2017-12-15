@@ -1,7 +1,6 @@
 package com.example.android.coffeeshopapp.ui.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +25,6 @@ import com.example.android.coffeeshopapp.views.RefundView;
 import com.example.android.coffeeshopapp.views.TransactionListView;
 import com.example.android.coffeeshopapp.widgets.adapters.TransactionListAdapter;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -121,6 +119,7 @@ public class TransactionsActivity extends AppCompatActivity
         edittext.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         edittext.setTextColor(getResources().getColor(R.color.colorDarkGrey));
         edittext.setHint(getResources().getString(R.string.enter_amount_here));
+        edittext.setHintTextColor(getResources().getColor(R.color.colorDarkGrey));
         alert.setMessage("Enter refund amount for " + cardId +
                 "\nAmount: " + String.format(Locale.ENGLISH, "%.2f", purchaseAmount));
         alert.setTitle(getResources().getString(R.string.refund_title));
@@ -139,8 +138,8 @@ public class TransactionsActivity extends AppCompatActivity
             }
             try {
                 double amount = Double.parseDouble(youEditTextValue);
-                refundPresenter.refundTransaction(cardId, purchaseId, amount);
-            } catch (RuntimeException e) {
+                if (amount != 0) refundPresenter.refundTransaction(cardId, purchaseId, amount);
+            } catch (NumberFormatException e) {
                 onRefundFailed(getResources().getString(R.string.incorrect_value));
             }
         });

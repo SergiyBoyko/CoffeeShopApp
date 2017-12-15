@@ -49,6 +49,8 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
         holder.date.setText(dateFormat.format(date));
         holder.cardId.setText(String.valueOf(transactionList.get(position).getCardId()));
+//        holder.fullName.setText(transactionList.get(position).);
+        // TODO: 15.12.2017 wait and add full name
         holder.amount.setText(String.format(Locale.ENGLISH, "%.2f", transactionList.get(position).getPrice()));
     }
 
@@ -65,6 +67,8 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.card_id_num)
         TextView cardId;
+        @BindView(R.id.full_name)
+        TextView fullName;
         @BindView(R.id.transaction_date)
         TextView date;
         @BindView(R.id.amount_field)

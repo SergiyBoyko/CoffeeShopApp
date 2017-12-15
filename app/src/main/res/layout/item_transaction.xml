@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="144dp"
+    android:layout_height="175dp"
     android:layout_marginBottom="1dp"
     android:background="@android:color/holo_blue_light"
     android:padding="10dp"
     android:paddingBottom="1dp">
 
     <TextView
+        android:id="@+id/full_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:text="Full name:"
+        android:textColor="@android:color/white"
+        android:textSize="24dp" />
+
+    <TextView
+        android:id="@+id/full_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/full_name_title"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:singleLine="true"
+        android:text="Melissa A Therrien"
+        android:textColor="@android:color/white"
+        android:textSize="24dp" />
+
+    <TextView
         android:id="@+id/card_id_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/full_name_title"
         android:shadowColor="@android:color/black"
         android:shadowDx="1"
         android:shadowDy="1"
@@ -22,6 +48,7 @@
         android:id="@+id/card_id_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/full_name"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/card_id_title"
         android:shadowColor="@android:color/black"

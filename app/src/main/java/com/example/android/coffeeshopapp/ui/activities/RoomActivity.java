@@ -50,6 +50,8 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
     ImageButton buttonShowIme;
     @BindView(R.id.transaction_but)
     Button transactionButton;
+    @BindView(R.id.full_client_name)
+    TextView fullNameView;
     @BindView(R.id.card_number)
     TextView cardIdView;
     @BindView(R.id.card_balance)
@@ -70,6 +72,7 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
     private long cardId;
     private double balance;
+    private String fullName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +88,11 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
         presenter.setView(this);
 
+        fullName = getIntent().getStringExtra(Constants.FULL_NAME_USER);
         cardId = getIntent().getLongExtra(Constants.CARD_ID, 0);
         balance = getIntent().getDoubleExtra(Constants.BALANCE, 0);
 
+        fullNameView.setText(fullName);
         cardIdView.setText(String.valueOf(cardId));
         balanceView.setText(String.format(Locale.ENGLISH, "%.2f", balance));
 

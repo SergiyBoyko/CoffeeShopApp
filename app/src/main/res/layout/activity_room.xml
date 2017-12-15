@@ -33,6 +33,29 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Full name:"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/full_client_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:singleLine="true"
+                    android:text="Melissa A Therrien"
+                    android:textSize="22dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/some_text3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/some_text2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Card id:"
                     android:textSize="22dp" />
 
@@ -47,10 +70,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/some_text3"
+                android:id="@+id/some_text4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/some_text2">
+                android:layout_below="@id/some_text3">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -71,7 +94,6 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@+id/card_text"
                     android:layout_marginLeft="10dp"
                     android:scaleType="center"
@@ -83,7 +105,7 @@
                 android:id="@+id/amount_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/some_text3"
+                android:layout_below="@id/some_text4"
                 android:layout_marginTop="30dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal">

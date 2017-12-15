@@ -119,7 +119,10 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
     public void onVerifySuccess(ResponseEntity responseEntity) {
         enterButton.setEnabled(true);
         progressDialog.hide();
-        startRoomActivity(responseEntity.getId(), responseEntity.getBalance());
+        startRoomActivity(responseEntity.getId(),
+                responseEntity.getBalance(),
+                responseEntity.getFirstName() + " " + responseEntity.getSecondName());
+        // TODO: 15.12.2017 Add middle initial
     }
 
     @Override
@@ -129,9 +132,10 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         progressDialog.hide();
     }
 
-    private void startRoomActivity(Long cardId, Double balance) {
+    private void startRoomActivity(Long cardId, Double balance, String fullName) {
         Intent intent = new Intent(this, RoomActivity.class);
 
+        intent.putExtra(Constants.FULL_NAME_USER, fullName);
         intent.putExtra(Constants.CARD_ID, cardId);
         intent.putExtra(Constants.BALANCE, balance);
 

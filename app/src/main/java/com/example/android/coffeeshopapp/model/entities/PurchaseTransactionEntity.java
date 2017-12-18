@@ -8,12 +8,22 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class PurchaseTransactionEntity {
+
     @SerializedName("id")
     @Expose
     private Long id;
-    @SerializedName("card_id")
+    @SerializedName("badgeId")
     @Expose
-    private Long cardId;
+    private String badgeId;
+    @SerializedName("firstName")
+    @Expose
+    private String firstName;
+    @SerializedName("lastName")
+    @Expose
+    private String lastName;
+    @SerializedName("middleName")
+    @Expose
+    private String middleName;
     @SerializedName("price")
     @Expose
     private Double price;
@@ -29,12 +39,36 @@ public class PurchaseTransactionEntity {
         this.id = id;
     }
 
-    public Long getCardId() {
-        return cardId;
+    public String getBadgeId() {
+        return badgeId;
     }
 
-    public void setCardId(Long cardId) {
-        this.cardId = cardId;
+    public void setBadgeId(String badgeId) {
+        this.badgeId = badgeId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public Double getPrice() {
@@ -52,4 +86,5 @@ public class PurchaseTransactionEntity {
     public void setDate(Long date) {
         this.date = date;
     }
+
 }

@@ -15,15 +15,24 @@ public class ResponseEntity {
     @SerializedName("firstName")
     @Expose
     private String firstName;
-    @SerializedName("secondName")
+    @SerializedName("lastName")
     @Expose
-    private String secondName;
-    @SerializedName("email")
+    private String lastName;
+    @SerializedName("middleName")
     @Expose
-    private String email;
+    private String middleName;
+    @SerializedName("suffix")
+    @Expose
+    private String suffix;
     @SerializedName("balance")
     @Expose
     private Double balance;
+    @SerializedName("badgeNumber")
+    @Expose
+    private String badgeNumber;
+    @SerializedName("active")
+    @Expose
+    private Boolean active;
 
     public Long getId() {
         return id;
@@ -41,20 +50,28 @@ public class ResponseEntity {
         this.firstName = firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 
     public Double getBalance() {
@@ -63,6 +80,22 @@ public class ResponseEntity {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+
+    public String getBadgeNumber() {
+        return badgeNumber;
+    }
+
+    public void setBadgeNumber(String badgeNumber) {
+        this.badgeNumber = badgeNumber;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
 }

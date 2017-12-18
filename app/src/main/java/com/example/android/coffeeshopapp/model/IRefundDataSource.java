@@ -9,5 +9,5 @@ import rx.Observable;
 
 public interface IRefundDataSource {
 
-    Observable<ResponseBody> refundTransaction(long cardId, long purchaseId, double price);
+    Observable<ResponseBody> refundTransaction(String cardId, long purchaseId, double price);
 }

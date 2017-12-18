@@ -20,12 +20,12 @@ public class TransactionRemoteDataSource implements ITransactionDataSource {
     }
 
     @Override
-    public Observable<PurchaseTransactionEntity> confirmTransaction(long id, double price) {
+    public Observable<PurchaseTransactionEntity> confirmTransaction(String id, double price) {
         return coffeeShopApi.confirmTransaction(id, price);
     }
 
     @Override
-    public Observable<ResponseBody> getBalance(long id) {
+    public Observable<ResponseBody> getBalance(String id) {
         return coffeeShopApi.getBalance(id);
     }
 }

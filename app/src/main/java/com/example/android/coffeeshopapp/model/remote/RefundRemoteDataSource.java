@@ -19,7 +19,7 @@ public class RefundRemoteDataSource implements IRefundDataSource {
     }
 
     @Override
-    public Observable<ResponseBody> refundTransaction(long cardId, long purchaseId, double price) {
+    public Observable<ResponseBody> refundTransaction(String cardId, long purchaseId, double price) {
         return coffeeShopApi.refundTransaction(cardId, purchaseId, price);
     }
 }

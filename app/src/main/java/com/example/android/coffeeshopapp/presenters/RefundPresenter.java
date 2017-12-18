@@ -22,7 +22,7 @@ public class RefundPresenter extends BasePresenter<RefundView> {
         this.refundDataSource = refundDataSource;
     }
 
-    public void refundTransaction(long cardId, long purchaseId, double price) {
+    public void refundTransaction(String cardId, long purchaseId, double price) {
         addSubscription(refundDataSource.refundTransaction(cardId, purchaseId, price)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())

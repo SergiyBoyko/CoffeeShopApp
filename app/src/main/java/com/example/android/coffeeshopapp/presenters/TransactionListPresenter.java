@@ -23,7 +23,7 @@ public class TransactionListPresenter extends BasePresenter<TransactionListView>
         this.transactionsListDataSource = transactionsListDataSource;
     }
 
-    public void getAllPurchases(long id) {
+    public void getAllPurchases(String id) {
         addSubscription(transactionsListDataSource.getAllPurchases(id)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())

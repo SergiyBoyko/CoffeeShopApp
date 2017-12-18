@@ -24,7 +24,7 @@ public class TransactionPresenter extends BasePresenter<TransactionView> {
         this.transactionDataSource = transactionDataSource;
     }
 
-    public void confirmTransaction(long id, double price) {
+    public void confirmTransaction(String id, double price) {
         addSubscription(transactionDataSource.confirmTransaction(id, price)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
@@ -45,7 +45,7 @@ public class TransactionPresenter extends BasePresenter<TransactionView> {
 
     }
 
-    public void getBalance(long id) {
+    public void getBalance(String id) {
         addSubscription(transactionDataSource.getBalance(id)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())

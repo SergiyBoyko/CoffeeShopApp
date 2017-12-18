@@ -70,7 +70,7 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
     private ProgressDialog progressDialog;
 
-    private long cardId;
+    private String cardId;
     private double balance;
     private String fullName;
 
@@ -89,11 +89,11 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         presenter.setView(this);
 
         fullName = getIntent().getStringExtra(Constants.FULL_NAME_USER);
-        cardId = getIntent().getLongExtra(Constants.CARD_ID, 0);
+        cardId = getIntent().getStringExtra(Constants.CARD_ID);
         balance = getIntent().getDoubleExtra(Constants.BALANCE, 0);
 
         fullNameView.setText(fullName);
-        cardIdView.setText(String.valueOf(cardId));
+        cardIdView.setText(cardId);
         balanceView.setText(String.format(Locale.ENGLISH, "%.2f", balance));
 
         originalKeyListener1 = intPartText.getKeyListener();
@@ -125,14 +125,14 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
     @Override
     public void transactionSuccess(PurchaseTransactionEntity transactionEntity) {
+        progressDialog.hide();
 //        showText(message);
         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
-        showText(String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice()));
+        showText(String.format(Locale.ENGLISH, "Transaction Success: %.2f", transactionEntity.getPrice()));
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setMessage("CARD ID: " + transactionEntity.getCardId()
-//                + "\nFull Name: " + transactionEntity.getFullName()
-                // TODO: 15.12.2017 wait and add display full name
-                + "\nAmount: " + transactionEntity.getPrice()
+        alert.setMessage("CARD ID: " + transactionEntity.getBadgeId()
+                + "\nFull Name: " + fullName
+                + "\nAmount: " + String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice())
                 + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate())));
         alert.setTitle(getResources().getString(R.string.receipt_title));
 

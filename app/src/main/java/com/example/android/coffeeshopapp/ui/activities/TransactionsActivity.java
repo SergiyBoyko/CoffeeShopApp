@@ -52,7 +52,7 @@ public class TransactionsActivity extends AppCompatActivity
     private TransactionListAdapter adapter;
 
     private String filters;
-    private long userId;
+    private String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class TransactionsActivity extends AppCompatActivity
         transactionListPresenter.setView(this);
 
         filters = getIntent().getStringExtra(Constants.PURCHASE_LIST);
-        userId = getIntent().getLongExtra(Constants.CARD_ID, 0);
+        userId = getIntent().getStringExtra(Constants.CARD_ID);
 
         adapter = new TransactionListAdapter(getContext(), null, this);
         recyclerView.setAdapter(adapter);
@@ -113,7 +113,7 @@ public class TransactionsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRefundClicked(long cardId, long purchaseId, double purchaseAmount) {
+    public void onRefundClicked(String cardId, long purchaseId, double purchaseAmount, String fullName) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText edittext = new EditText(getContext());
         edittext.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);

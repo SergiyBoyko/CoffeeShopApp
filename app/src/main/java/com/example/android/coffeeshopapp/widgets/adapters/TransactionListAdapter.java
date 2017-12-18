@@ -48,9 +48,11 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         Date date = new Date(ms);
         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
         holder.date.setText(dateFormat.format(date));
-        holder.cardId.setText(String.valueOf(transactionList.get(position).getCardId()));
-//        holder.fullName.setText(transactionList.get(position).);
-        // TODO: 15.12.2017 wait and add full name
+        holder.cardId.setText(String.valueOf(transactionList.get(position).getBadgeId()));
+        String name = transactionList.get(position).getFirstName() + " " +
+                transactionList.get(position).getMiddleName().charAt(0) + " " +
+                transactionList.get(position).getLastName();
+        holder.fullName.setText(name);
         holder.amount.setText(String.format(Locale.ENGLISH, "%.2f", transactionList.get(position).getPrice()));
     }
 
@@ -81,11 +83,15 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             super(inflater.inflate(R.layout.item_transaction, parent, false));
 
             ButterKnife.bind(this, itemView);
-
-            refundButton.setOnClickListener(view ->
-                    refundClickListener.onRefundClicked(transactionList.get(getAdapterPosition()).getCardId(),
-                            transactionList.get(getAdapterPosition()).getId(),
-                            transactionList.get(getAdapterPosition()).getPrice()));
+            refundButton.setOnClickListener(view -> {
+                PurchaseTransactionEntity entity = transactionList.get(getAdapterPosition());
+                refundClickListener.onRefundClicked(entity.getBadgeId(),
+                        entity.getId(),
+                        entity.getPrice(),
+                        entity.getFirstName() + " " +
+                                entity.getMiddleName().charAt(0) + " " +
+                                entity.getLastName());
+            });
         }
 
 
@@ -93,7 +99,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
 
     public interface OnRefundClickListener {
 
-        void onRefundClicked(long cardId, long purchaseId, double amount);
+        void onRefundClicked(String cardId, long purchaseId, double amount, String fullName);
 
     }
 

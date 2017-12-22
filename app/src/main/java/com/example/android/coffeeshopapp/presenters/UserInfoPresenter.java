@@ -24,8 +24,8 @@ public class UserInfoPresenter extends BasePresenter<UserInfoView> {
         this.userInfoDataSource = userInfoDataSource;
     }
 
-    public void getUserData(int id) {
-        addSubscription(userInfoDataSource.getUserData(id)
+    public void getUserData(String cardId) {
+        addSubscription(userInfoDataSource.getUserData(cardId)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

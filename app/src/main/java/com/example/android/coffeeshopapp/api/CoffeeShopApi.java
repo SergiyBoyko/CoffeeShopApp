@@ -18,13 +18,13 @@ import rx.Observable;
 public interface CoffeeShopApi {
 
     @GET("/user/getUser")
-    Observable<ResponseEntity> getUserData(@Query("cardId") long id);
+    Observable<ResponseEntity> getUserData(@Query("cardId") String cardId);
 
     @GET("/user/getBalance")
-    Observable<ResponseBody> getBalance(@Query("cardId") String id);
+    Observable<ResponseBody> getBalance(@Query("cardId") String cardId);
 
     @GET("/purchase/getAllPurchases")
-    Observable<List<PurchaseTransactionEntity>> getAllPurchases(@Query("cardId") String id);
+    Observable<List<PurchaseTransactionEntity>> getAllPurchases(@Query("cardId") String cardId);
 
     @GET("/purchase/getAllPurchasesForDay")
     Observable<List<PurchaseTransactionEntity>> getAllPurchasesForDay();

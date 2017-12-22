@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
 
         progressDialog.show();
 
-        presenter.getUserData(Integer.parseInt(editText.getText().toString()));
+        presenter.getUserData(editText.getText().toString());
     }
 
     private void unlockKeyboard() {

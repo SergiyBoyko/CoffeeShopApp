@@ -19,7 +19,7 @@ public class UserInfoRemoteDataSource implements IUserInfoDataSource {
     }
 
     @Override
-    public Observable<ResponseEntity> getUserData(int id) {
-        return coffeeShopApi.getUserData(id);
+    public Observable<ResponseEntity> getUserData(String cardId) {
+        return coffeeShopApi.getUserData(cardId);
     }
 }

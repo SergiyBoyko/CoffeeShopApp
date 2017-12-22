@@ -10,6 +10,6 @@ import rx.Observable;
 
 public interface IUserInfoDataSource {
 
-    Observable<ResponseEntity> getUserData(int id);
+    Observable<ResponseEntity> getUserData(String cardId);
 
 }

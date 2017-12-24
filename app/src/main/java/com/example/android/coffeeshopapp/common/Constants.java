@@ -17,6 +17,6 @@ public class Constants {
     public static final String CONCRETE_USER = "concrete_users";
     public static final String FULL_NAME_USER = "full_name_users";
 
-    public static final String DATE_FORMAT = "HH:mm dd.MM.yyyy";
+    public static final String DATE_FORMAT = "hh:mm a MM.dd.yyyy";
 
 }

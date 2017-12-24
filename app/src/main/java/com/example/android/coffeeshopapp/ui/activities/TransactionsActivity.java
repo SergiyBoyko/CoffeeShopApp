@@ -7,8 +7,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.android.coffeeshopapp.AppCoffeeShop;
@@ -115,26 +118,43 @@ public class TransactionsActivity extends AppCompatActivity
     @Override
     public void onRefundClicked(String cardId, long purchaseId, double purchaseAmount, String fullName) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        final EditText edittext = new EditText(getContext());
-        edittext.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        edittext.setTextColor(getResources().getColor(R.color.colorDarkGrey));
-        edittext.setHint(getResources().getString(R.string.enter_amount_here));
-        edittext.setHintTextColor(getResources().getColor(R.color.colorDarkGrey));
         alert.setMessage("Enter refund amount for " + cardId +
                 "\nAmount: " + String.format(Locale.ENGLISH, "%.2f", purchaseAmount));
         alert.setTitle(getResources().getString(R.string.refund_title));
 
-        alert.setView(edittext);
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText amountEditText = new EditText(getContext());
+        amountEditText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        amountEditText.setTextColor(getResources().getColor(R.color.colorDarkGrey));
+        amountEditText.setHint(getResources().getString(R.string.enter_amount_here));
+        amountEditText.setHintTextColor(getResources().getColor(R.color.colorDarkGrey));
+        layout.addView(amountEditText);
+
+        final EditText pinEditText = new EditText(getContext());
+        pinEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        pinEditText.setTextColor(getResources().getColor(R.color.colorDarkGrey));
+        pinEditText.setHint("Enter pin here");
+        pinEditText.setHintTextColor(getResources().getColor(R.color.colorDarkGrey));
+        pinEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+        layout.addView(pinEditText);
+
+        alert.setView(layout);
 
         alert.setPositiveButton(getResources().getString(R.string.refund_confirm), (dialog, whichButton) -> {
             if (!InternetConnectivityUtil.isConnected(getContext())) {
                 onRefundFailed(getResources().getString(R.string.network_problems));
                 return;
             }
-            String youEditTextValue = edittext.getText().toString();
+            String youEditTextValue = amountEditText.getText().toString();
             if (youEditTextValue.contains(",")) {
                 onRefundFailed(getResources().getString(R.string.use_dot));
                 return;
+            }
+            String pin = pinEditText.getText().toString();
+            if (pin.length() != 4) {
+                onRefundFailed("PIN must have 4 digits");
             }
             try {
                 double amount = Double.parseDouble(youEditTextValue);

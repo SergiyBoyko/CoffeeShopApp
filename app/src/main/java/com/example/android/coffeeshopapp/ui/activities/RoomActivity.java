@@ -40,14 +40,15 @@ import butterknife.ButterKnife;
  * Created by dev_serhii on 12.12.2017.
  */
 
-public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.OnKeyboardToggleListener, TransactionView {
+public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.OnKeyboardToggleListener, TransactionView,
+        View.OnClickListener {
 
     @BindView(R.id.amount_field_int)
     EditText intPartText;
     @BindView(R.id.amount_field_fractional)
     EditText fractPartText;
-    @BindView(R.id.button_show_ime)
-    ImageButton buttonShowIme;
+    //    @BindView(R.id.button_show_ime)
+//    ImageButton buttonShowIme;
     @BindView(R.id.transaction_but)
     Button transactionButton;
     @BindView(R.id.full_client_name)
@@ -60,6 +61,30 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
     Button viewUserTransButton;
     @BindView(R.id.upd_button)
     ImageButton updateBalanceTransButton;
+    @BindView(R.id.num1)
+    Button num1;
+    @BindView(R.id.num2)
+    Button num2;
+    @BindView(R.id.num3)
+    Button num3;
+    @BindView(R.id.num4)
+    Button num4;
+    @BindView(R.id.num5)
+    Button num5;
+    @BindView(R.id.num6)
+    Button num6;
+    @BindView(R.id.num7)
+    Button num7;
+    @BindView(R.id.num8)
+    Button num8;
+    @BindView(R.id.num9)
+    Button num9;
+    @BindView(R.id.numX)
+    Button numX;
+    @BindView(R.id.num0)
+    Button num0;
+    @BindView(R.id.numZ)
+    Button numZ;
 
     @Inject
     TransactionPresenter presenter;
@@ -102,18 +127,16 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         intPartText.setKeyListener(null);
         fractPartText.setKeyListener(null);
 
-        buttonShowIme.setOnClickListener(v -> {
-            if (intPartText.getKeyListener() != null && fractPartText.getKeyListener() != null)
-                lockKeyboard();
-            else unlockKeyboard();
-        });
+//        buttonShowIme.setOnClickListener(v -> {
+//            if (intPartText.getKeyListener() != null && fractPartText.getKeyListener() != null)
+//                lockKeyboard();
+//            else unlockKeyboard();
+//        });
 
         keyboardWatcher = new KeyboardWatcher(this);
         keyboardWatcher.setListener(this);
 
-        transactionButton.setOnClickListener(v -> {
-            confirm();
-        });
+        transactionButton.setOnClickListener(v -> confirm());
 
         viewUserTransButton.setOnClickListener(view -> startTransactionActivity());
         updateBalanceTransButton.setOnClickListener(view -> presenter.getBalance(cardId));
@@ -121,6 +144,8 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getResources().getString(R.string.verifying_progress));
+
+        setupButtonsListener();
     }
 
     @Override
@@ -145,6 +170,29 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
 
         alert.show();
         presenter.getBalance(cardId);
+    }
+
+    @Override
+    public void onClick(View view) {
+        String tag = view.getTag().toString();
+        switch (tag) {
+            case "AC":
+                intPartText.setText("");
+                fractPartText.setText("");
+                break;
+            case ".":
+                fractPartText.requestFocus();
+                break;
+            default:
+                if (intPartText.hasFocus()) {
+                    String intAmount = intPartText.getText().toString() + tag;
+                    intPartText.setText(intAmount);
+                } else {
+                    String fractAmount = fractPartText.getText().toString();
+                    if (fractAmount.length() < 2) fractAmount += tag;
+                    fractPartText.setText(fractAmount);
+                }
+        }
     }
 
     @Override
@@ -227,5 +275,20 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         intent.putExtra(Constants.PURCHASE_LIST, Constants.CONCRETE_USER);
         intent.putExtra(Constants.CARD_ID, cardId);
         startActivity(intent);
+    }
+
+    private void setupButtonsListener() {
+        findViewById(R.id.num1).setOnClickListener(this);
+        findViewById(R.id.num2).setOnClickListener(this);
+        findViewById(R.id.num3).setOnClickListener(this);
+        findViewById(R.id.num4).setOnClickListener(this);
+        findViewById(R.id.num5).setOnClickListener(this);
+        findViewById(R.id.num6).setOnClickListener(this);
+        findViewById(R.id.num7).setOnClickListener(this);
+        findViewById(R.id.num8).setOnClickListener(this);
+        findViewById(R.id.num9).setOnClickListener(this);
+        findViewById(R.id.numX).setOnClickListener(this);
+        findViewById(R.id.num0).setOnClickListener(this);
+        findViewById(R.id.numZ).setOnClickListener(this);
     }
 }

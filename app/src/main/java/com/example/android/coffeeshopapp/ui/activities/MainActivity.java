@@ -3,15 +3,21 @@ package com.example.android.coffeeshopapp.ui.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.text.InputType;
 import android.text.method.KeyListener;
-import android.view.View;
+import android.view.KeyEvent;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.azimolabs.keyboardwatcher.KeyboardWatcher;
@@ -25,8 +31,6 @@ import com.example.android.coffeeshopapp.model.entities.ResponseEntity;
 import com.example.android.coffeeshopapp.presenters.UserInfoPresenter;
 import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
 import com.example.android.coffeeshopapp.views.UserInfoView;
-
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -51,10 +55,12 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
     @Inject
     UserInfoPresenter presenter;
 
-    private KeyListener originalKeyListener;
     private KeyboardWatcher keyboardWatcher;
 
     private ProgressDialog progressDialog;
+
+    private int originalInputType;
+    private boolean isKeyboardLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +76,25 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
                 .inject(this);
 
         presenter.setView(this);
+        //865099026032140
+        //d9e76c56e5d68c1c  f4 ef e9 94 96 ff
+        TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String uid1 = tManager.getDeviceId();
+        String uid2 = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = manager.getConnectionInfo();
+        String address = info.getMacAddress();
+        String s = "1)DeviceId " + uid1 + "\n2)AndroidId " + uid2 + "\n3)mac: " + address;
+        ((TextView)findViewById(R.id.textView1)).setText(s);
+        showText(s);
 
-        // Save its key listener which makes it editable.
-        originalKeyListener = editText.getKeyListener();
-        // Set it to null - this will make the field non-editable
-        editText.setKeyListener(null);
+        isKeyboardLock = true;
+        editText.requestFocus();
+        originalInputType = editText.getInputType();
 
         // Attach an on-click listener.
         buttonShowIme.setOnClickListener(v -> {
-            if (editText.getKeyListener() != null)
+            if (!isKeyboardLock)
                 lockKeyboard();
             else unlockKeyboard();
         });
@@ -103,10 +119,13 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
 
     @Override
     public void onKeyboardShown(int keyboardSize) {
+//        showText("keyboard shown");
+        if (isKeyboardLock) lockKeyboard();
     }
 
     @Override
     public void onKeyboardClosed() {
+//        showText("keyboard closed");
         lockKeyboard();
     }
 
@@ -169,21 +188,20 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
     }
 
     private void unlockKeyboard() {
-        // Restore key listener - this will make the field editable again.
-        editText.setKeyListener(originalKeyListener);
+        isKeyboardLock = false;
         // Focus the field.
+        editText.setInputType(originalInputType);
         editText.requestFocus();
         // Show soft keyboard for the user to enter the value.
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        showTheKeyboard(getContext(), editText);
     }
 
     private void lockKeyboard() {
+        isKeyboardLock = true;
         // Hide soft keyboard.
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        hideTheKeyboard(getContext(), editText);
         // Make it non-editable again.
-        editText.setKeyListener(null);
+//        hideTheKeyboardSecond(editText);
     }
 
     public AppComponent getAppComponent() {
@@ -192,5 +210,31 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
 
     private void showText(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Method for showing the Keyboard
+     * @param context The context of the activity
+     * @param editText The edit text for which we want to show the keyboard
+     */
+    public void showTheKeyboard(Context context, EditText editText){
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    /**
+     * Method for hiding the Keyboard
+     * @param context The context of the activity
+     * @param editText The edit text for which we want to hide the keyboard
+     */
+    public void hideTheKeyboard(Context context, EditText editText){
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
+    /**
+     * Another method to hide the keyboard if the above method is not working.
+     */
+    public void hideTheKeyboardSecond(EditText editText){
+        editText.setInputType(InputType.TYPE_NULL);
     }
 }

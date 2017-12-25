@@ -2,6 +2,7 @@ package com.example.android.coffeeshopapp.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -28,7 +28,9 @@ import com.example.android.coffeeshopapp.views.RefundView;
 import com.example.android.coffeeshopapp.views.TransactionListView;
 import com.example.android.coffeeshopapp.widgets.adapters.TransactionListAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,6 +58,7 @@ public class TransactionsActivity extends AppCompatActivity
 
     private String filters;
     private String userId;
+    private String uniqueId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +73,8 @@ public class TransactionsActivity extends AppCompatActivity
                 .build()
                 .inject(this);
 
+        uniqueId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
         refundPresenter.setView(this);
         transactionListPresenter.setView(this);
 
@@ -105,13 +110,37 @@ public class TransactionsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRefundSuccess(String message) {
-        showText(message);
+    public void onRefundSuccess(PurchaseTransactionEntity transactionEntity) {
+//        showText(message);
+        String fullName = transactionEntity.getFirstName() + " " +
+                transactionEntity.getMiddleName().charAt(0) + " " + transactionEntity.getLastName();
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
+        showText(String.format(Locale.ENGLISH, "Transaction Success: %.2f", transactionEntity.getPrice()));
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage("CARD ID: " + transactionEntity.getBadgeId()
+                + "\nFull Name: " + fullName
+                + "\nAmount: " + String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice())
+                + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate())));
+        alert.setTitle(getResources().getString(R.string.receipt_title));
+
+        alert.setPositiveButton(getResources().getString(R.string.print_receipt),
+                (dialog, whichButton) -> showText("Coming soon."));
+
+        alert.setNegativeButton(getResources().getString(R.string.close_receipt), (dialog, whichButton) -> {
+            // what ever you want to do with No option.
+        });
+
+        alert.show();
         loadTransactionList();
     }
 
     @Override
     public void onRefundFailed(String message) {
+        showText(message);
+    }
+
+    @Override
+    public void onPinVerifySuccess(String message) {
         showText(message);
     }
 
@@ -158,7 +187,8 @@ public class TransactionsActivity extends AppCompatActivity
             }
             try {
                 double amount = Double.parseDouble(youEditTextValue);
-                if (amount != 0) refundPresenter.refundTransaction(cardId, purchaseId, amount);
+                if (amount != 0)
+                    refundPresenter.tryToRefund(pin, cardId, purchaseId, amount, uniqueId);
             } catch (NumberFormatException e) {
                 onRefundFailed(getResources().getString(R.string.incorrect_value));
             }

@@ -1,5 +1,7 @@
 package com.example.android.coffeeshopapp.model;
 
+import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntity;
+
 import okhttp3.ResponseBody;
 import rx.Observable;
 
@@ -9,5 +11,7 @@ import rx.Observable;
 
 public interface IRefundDataSource {
 
-    Observable<ResponseBody> refundTransaction(String cardId, long purchaseId, double price);
+    Observable<ResponseBody> checkPin(String pin);
+
+    Observable<PurchaseTransactionEntity> refundTransaction(String cardId, long purchaseId, double price, String employeeId);
 }

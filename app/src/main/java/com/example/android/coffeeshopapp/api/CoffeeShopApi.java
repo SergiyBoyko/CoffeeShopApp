@@ -30,10 +30,24 @@ public interface CoffeeShopApi {
     Observable<List<PurchaseTransactionEntity>> getAllPurchasesForDay();
 
     @POST("/purchase/refund")
-    Observable<ResponseBody> refundTransaction(@Query("cardId") String cardId,
+    Observable<PurchaseTransactionEntity> refundTransaction(@Query("cardId") String cardId,
                                                @Query("purchaseId") long purchaseId,
-                                               @Query("price") double price);
+                                               @Query("price") double price,
+                                               @Query("employeeId") String employeeId);
 
     @POST("/purchase/buy")
-    Observable<PurchaseTransactionEntity> confirmTransaction(@Query("cardId") String cardId, @Query("price") double price);
+    Observable<PurchaseTransactionEntity> confirmTransaction(@Query("cardId") String cardId,
+                                                             @Query("price") double price,
+                                                             @Query("employeeId") String employeeId);
+
+    @POST("/purchase/confirmPass")
+    Observable<ResponseBody> checkPin(@Query("password") String pin);
+
+    @GET("/purchase/getAllPurchasesXReport")
+    Observable<ResponseBody> getXReport(@Query("employeeId") String employeeId);
+
+    @GET("/purchase/getAllPurchasesZReport")
+    Observable<ResponseBody> getZReport(@Query("employeeId") String employeeId);
+
+
 }

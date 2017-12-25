@@ -12,7 +12,7 @@ import rx.Observable;
 
 public class UserInfoRemoteDataSource implements IUserInfoDataSource {
 
-    CoffeeShopApi coffeeShopApi;
+    private CoffeeShopApi coffeeShopApi;
 
     public UserInfoRemoteDataSource(CoffeeShopApi coffeeShopApi) {
         this.coffeeShopApi = coffeeShopApi;

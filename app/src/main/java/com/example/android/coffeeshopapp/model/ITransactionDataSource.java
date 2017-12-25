@@ -11,7 +11,7 @@ import rx.Observable;
 
 public interface ITransactionDataSource {
 
-    Observable<PurchaseTransactionEntity> confirmTransaction(String id, double price);
+    Observable<PurchaseTransactionEntity> confirmTransaction(String id, double price, String employeeId);
 
     Observable<ResponseBody> getBalance(String id);
 }

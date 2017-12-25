@@ -13,15 +13,15 @@ import rx.Observable;
 
 public class TransactionRemoteDataSource implements ITransactionDataSource {
 
-    CoffeeShopApi coffeeShopApi;
+    private CoffeeShopApi coffeeShopApi;
 
     public TransactionRemoteDataSource(CoffeeShopApi coffeeShopApi) {
         this.coffeeShopApi = coffeeShopApi;
     }
 
     @Override
-    public Observable<PurchaseTransactionEntity> confirmTransaction(String id, double price) {
-        return coffeeShopApi.confirmTransaction(id, price);
+    public Observable<PurchaseTransactionEntity> confirmTransaction(String id, double price, String employeeId) {
+        return coffeeShopApi.confirmTransaction(id, price, employeeId);
     }
 
     @Override

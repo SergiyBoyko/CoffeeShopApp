@@ -4,6 +4,7 @@ import com.example.android.coffeeshopapp.model.IRefundDataSource;
 import com.example.android.coffeeshopapp.model.ITransactionDataSource;
 import com.example.android.coffeeshopapp.model.ITransactionsListDataSource;
 import com.example.android.coffeeshopapp.model.IUserInfoDataSource;
+import com.example.android.coffeeshopapp.model.IZXReportDataSource;
 
 import retrofit2.Retrofit;
 
@@ -22,5 +23,7 @@ public interface ApiComponent {
     ITransactionsListDataSource transactionsListDataSource();
 
     IRefundDataSource refundDataSource();
+
+    IZXReportDataSource reportDataSource();
 
 }

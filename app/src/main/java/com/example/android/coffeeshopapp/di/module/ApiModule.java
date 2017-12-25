@@ -6,10 +6,12 @@ import com.example.android.coffeeshopapp.model.IRefundDataSource;
 import com.example.android.coffeeshopapp.model.ITransactionDataSource;
 import com.example.android.coffeeshopapp.model.ITransactionsListDataSource;
 import com.example.android.coffeeshopapp.model.IUserInfoDataSource;
+import com.example.android.coffeeshopapp.model.IZXReportDataSource;
 import com.example.android.coffeeshopapp.model.remote.RefundRemoteDataSource;
 import com.example.android.coffeeshopapp.model.remote.TransactionRemoteDataSource;
 import com.example.android.coffeeshopapp.model.remote.TransactionsListRemoteDataSource;
 import com.example.android.coffeeshopapp.model.remote.UserInfoRemoteDataSource;
+import com.example.android.coffeeshopapp.model.remote.ZXReportRemoteDataSource;
 
 import javax.inject.Singleton;
 
@@ -58,6 +60,12 @@ public class ApiModule {
     @Singleton
     IRefundDataSource provideRefundDataSource(Retrofit retrofit) {
         return new RefundRemoteDataSource(retrofit.create(CoffeeShopApi.class));
+    }
+
+    @Provides
+    @Singleton
+    IZXReportDataSource provideIZXReportDataSource(Retrofit retrofit) {
+        return new ZXReportRemoteDataSource(retrofit.create(CoffeeShopApi.class));
     }
 
 }

@@ -22,19 +22,40 @@ public class RefundPresenter extends BasePresenter<RefundView> {
         this.refundDataSource = refundDataSource;
     }
 
-    public void refundTransaction(String cardId, long purchaseId, double price) {
-        addSubscription(refundDataSource.refundTransaction(cardId, purchaseId, price)
+    public void tryToRefund(String pin, String cardId, long purchaseId, double price, String employeeId) {
+        addSubscription(refundDataSource.checkPin(pin)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(responseBody -> {
                     try {
-                        getView().onRefundSuccess(responseBody.string());
+                        getView().onPinVerifySuccess(responseBody.string());
+                        refundTransaction(cardId, purchaseId, price, employeeId);
                     } catch (IOException e) {
                         getView().onRefundFailed("null");
                         e.printStackTrace();
                     }
                 }, throwable -> {
+                    if (throwable instanceof HttpException) {
+                        HttpException httpException = (HttpException) throwable;
+                        String message = httpException.getMessage();
+                        try {
+                            message = httpException.response().errorBody().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        getView().onRefundFailed(message);
+                    }
+                })
+        );
+    }
+
+    public void refundTransaction(String cardId, long purchaseId, double price, String employeeId) {
+        addSubscription(refundDataSource.refundTransaction(cardId, purchaseId, price, employeeId)
+                .retryWhen(new RxRetryWithDelay())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getView()::onRefundSuccess, throwable -> {
                     if (throwable instanceof HttpException) {
                         HttpException httpException = (HttpException) throwable;
                         String message = httpException.getMessage();

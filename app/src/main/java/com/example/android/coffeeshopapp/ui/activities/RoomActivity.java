@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.KeyListener;
@@ -264,7 +265,9 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         Double price = Double.parseDouble(amount);
 
         if ((intPartText.length() != 0 || fractPartText.length() != 0) && price > 0) {
-            presenter.confirmTransaction(cardId, Double.parseDouble(amount));
+            String uniqueId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            presenter.confirmTransaction(cardId, Double.parseDouble(amount), uniqueId);
         } else {
             transactionFailed(getString(R.string.too_low_amount));
         }

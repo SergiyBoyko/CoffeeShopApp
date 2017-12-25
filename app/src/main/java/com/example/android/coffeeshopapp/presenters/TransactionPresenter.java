@@ -24,8 +24,8 @@ public class TransactionPresenter extends BasePresenter<TransactionView> {
         this.transactionDataSource = transactionDataSource;
     }
 
-    public void confirmTransaction(String id, double price) {
-        addSubscription(transactionDataSource.confirmTransaction(id, price)
+    public void confirmTransaction(String id, double price, String employeeId) {
+        addSubscription(transactionDataSource.confirmTransaction(id, price, employeeId)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

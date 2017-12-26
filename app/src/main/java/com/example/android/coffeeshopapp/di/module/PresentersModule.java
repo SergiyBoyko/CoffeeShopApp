@@ -37,7 +37,7 @@ public class PresentersModule {
 
     @Provides
     @Scope(Scopes.VIEW)
-    public TransactionListPresenter provideTransactionListPresenter(ITransactionsListDataSource transactionsListDataSource) {
+    public TransactionListPresenter provideTransactionlistPresenter(ITransactionsListDataSource transactionsListDataSource) {
         return new TransactionListPresenter(transactionsListDataSource);
     }
 

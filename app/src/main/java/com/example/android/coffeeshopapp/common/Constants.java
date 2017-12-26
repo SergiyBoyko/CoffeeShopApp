@@ -19,4 +19,7 @@ public class Constants {
 
     public static final String DATE_FORMAT = "hh:mm a MM.dd.yyyy";
 
+    public static final String X_REPORT = "X REPORT";
+    public static final String Z_REPORT = "Z REPORT";
+
 }

@@ -1,5 +1,9 @@
 package com.example.android.coffeeshopapp.model;
 
+import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntity;
+
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import rx.Observable;
 
@@ -9,7 +13,9 @@ import rx.Observable;
 
 public interface IZXReportDataSource {
 
-    Observable<ResponseBody> getXReport(String employeeId);
+    Observable<List<PurchaseTransactionEntity>> getXReport(String employeeId);
 
-    Observable<ResponseBody> getZReport(String employeeId);
+    Observable<List<PurchaseTransactionEntity>> getZReport(String employeeId);
+
+    Observable<ResponseBody> getLastTimeUpdated(String employeeId);
 }

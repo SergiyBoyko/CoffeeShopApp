@@ -19,7 +19,8 @@
     <string name="enter_amount_here">Enter amount here</string>
     <string name="print_receipt">Print</string>
     <string name="close_receipt">Close</string>
-    <string name="receipt_title">"Receipt"</string>
+    <string name="receipt_title">Receipt</string>
+    <string name="coming_soon">Coming soon.</string>
     <string-array name="actions_array">
         <item>+</item>
         <item>-</item>

@@ -62,30 +62,6 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
     Button viewUserTransButton;
     @BindView(R.id.upd_button)
     ImageButton updateBalanceTransButton;
-    @BindView(R.id.num1)
-    Button num1;
-    @BindView(R.id.num2)
-    Button num2;
-    @BindView(R.id.num3)
-    Button num3;
-    @BindView(R.id.num4)
-    Button num4;
-    @BindView(R.id.num5)
-    Button num5;
-    @BindView(R.id.num6)
-    Button num6;
-    @BindView(R.id.num7)
-    Button num7;
-    @BindView(R.id.num8)
-    Button num8;
-    @BindView(R.id.num9)
-    Button num9;
-    @BindView(R.id.numX)
-    Button numX;
-    @BindView(R.id.num0)
-    Button num0;
-    @BindView(R.id.numZ)
-    Button numZ;
 
     @Inject
     TransactionPresenter presenter;

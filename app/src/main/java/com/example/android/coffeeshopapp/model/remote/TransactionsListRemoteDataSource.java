@@ -21,12 +21,12 @@ public class TransactionsListRemoteDataSource implements ITransactionsListDataSo
     }
 
     @Override
-    public Observable<List<PurchaseTransactionEntity>> getAllPurchases(String id) {
-        return coffeeShopApi.getAllPurchases(id);
+    public Observable<List<PurchaseTransactionEntity>> getAllPurchases(String id, String employeeId) {
+        return coffeeShopApi.getAllPurchases(id, employeeId);
     }
 
     @Override
-    public Observable<List<PurchaseTransactionEntity>> getAllPurchasesForDay() {
-        return coffeeShopApi.getAllPurchasesForDay();
+    public Observable<List<PurchaseTransactionEntity>> getAllPurchasesForDay(String employeeId) {
+        return coffeeShopApi.getAllPurchasesForDay(employeeId);
     }
 }

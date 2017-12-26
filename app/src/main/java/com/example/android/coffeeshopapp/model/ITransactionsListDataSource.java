@@ -12,8 +12,8 @@ import rx.Observable;
 
 public interface ITransactionsListDataSource {
 
-    Observable<List<PurchaseTransactionEntity>> getAllPurchases(String id);
+    Observable<List<PurchaseTransactionEntity>> getAllPurchases(String id, String employeeId);
 
-    Observable<List<PurchaseTransactionEntity>> getAllPurchasesForDay();
+    Observable<List<PurchaseTransactionEntity>> getAllPurchasesForDay(String employeeId);
 
 }

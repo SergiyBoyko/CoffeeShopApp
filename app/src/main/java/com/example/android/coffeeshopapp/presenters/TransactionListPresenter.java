@@ -23,16 +23,16 @@ public class TransactionListPresenter extends BasePresenter<TransactionListView>
         this.transactionsListDataSource = transactionsListDataSource;
     }
 
-    public void getAllPurchases(String id) {
-        addSubscription(transactionsListDataSource.getAllPurchases(id)
+    public void getAllPurchases(String id, String employeeId) {
+        addSubscription(transactionsListDataSource.getAllPurchases(id, employeeId)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getView()::showTransactionList, new RxErrorAction(getView().getContext())));
     }
 
-    public void getAllPurchasesForDay() {
-        addSubscription(transactionsListDataSource.getAllPurchasesForDay()
+    public void getAllPurchasesForDay(String employeeId) {
+        addSubscription(transactionsListDataSource.getAllPurchasesForDay(employeeId)
                 .retryWhen(new RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

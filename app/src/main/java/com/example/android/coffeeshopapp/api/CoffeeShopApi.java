@@ -24,10 +24,11 @@ public interface CoffeeShopApi {
     Observable<ResponseBody> getBalance(@Query("cardId") String cardId);
 
     @GET("/purchase/getAllPurchases")
-    Observable<List<PurchaseTransactionEntity>> getAllPurchases(@Query("cardId") String cardId);
+    Observable<List<PurchaseTransactionEntity>> getAllPurchases(@Query("cardId") String cardId,
+                                                                @Query("employeeId") String employeeId);
 
     @GET("/purchase/getAllPurchasesForDay")
-    Observable<List<PurchaseTransactionEntity>> getAllPurchasesForDay();
+    Observable<List<PurchaseTransactionEntity>> getAllPurchasesForDay(@Query("employeeId") String employeeId);
 
     @POST("/purchase/refund")
     Observable<PurchaseTransactionEntity> refundTransaction(@Query("cardId") String cardId,
@@ -40,14 +41,16 @@ public interface CoffeeShopApi {
                                                              @Query("price") double price,
                                                              @Query("employeeId") String employeeId);
 
-    @POST("/purchase/confirmPass")
+    @GET("/purchase/confirmPass")
     Observable<ResponseBody> checkPin(@Query("password") String pin);
 
     @GET("/purchase/getAllPurchasesXReport")
-    Observable<ResponseBody> getXReport(@Query("employeeId") String employeeId);
+    Observable<List<PurchaseTransactionEntity>> getXReport(@Query("employeeId") String employeeId);
 
     @GET("/purchase/getAllPurchasesZReport")
-    Observable<ResponseBody> getZReport(@Query("employeeId") String employeeId);
+    Observable<List<PurchaseTransactionEntity>> getZReport(@Query("employeeId") String employeeId);
 
-
+    //https://coffee-shop-test.herokuapp.com/purchase/getLastTimeUpdated?employeeId=1111
+    @GET("/purchase/getLastTimeUpdated")
+    Observable<ResponseBody> getLastTimeUpdated(@Query("employeeId") String employeeId);
 }

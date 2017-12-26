@@ -91,9 +91,9 @@ public class TransactionsActivity extends AppCompatActivity
 
     private void loadTransactionList() {
         if (filters.equals(Constants.ALL_USERS)) {
-            transactionListPresenter.getAllPurchasesForDay();
+            transactionListPresenter.getAllPurchasesForDay(uniqueId);
         } else {
-            transactionListPresenter.getAllPurchases(userId);
+            transactionListPresenter.getAllPurchases(userId, uniqueId);
         }
     }
 
@@ -110,27 +110,28 @@ public class TransactionsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRefundSuccess(PurchaseTransactionEntity transactionEntity) {
-//        showText(message);
-        String fullName = transactionEntity.getFirstName() + " " +
-                transactionEntity.getMiddleName().charAt(0) + " " + transactionEntity.getLastName();
-        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
-        showText(String.format(Locale.ENGLISH, "Transaction Success: %.2f", transactionEntity.getPrice()));
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setMessage("CARD ID: " + transactionEntity.getBadgeId()
-                + "\nFull Name: " + fullName
-                + "\nAmount: " + String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice())
-                + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate())));
-        alert.setTitle(getResources().getString(R.string.receipt_title));
+    public void onRefundSuccess(PurchaseTransactionEntity transactionEntity, String fullName) {
+//        showText("onRefundSuccess " + (transactionEntity != null));
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
+            showText(String.format(Locale.ENGLISH, "Refund Success: %.2f", transactionEntity.getPrice()));
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("CARD ID: " + transactionEntity.getBadgeId()
+                    + "\nFull Name: " + fullName
+                    + "\nAmount: -" + String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice())
+                    + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate())));
+            alert.setTitle(getResources().getString(R.string.receipt_title));
 
-        alert.setPositiveButton(getResources().getString(R.string.print_receipt),
-                (dialog, whichButton) -> showText("Coming soon."));
+            alert.setPositiveButton(getResources().getString(R.string.print_receipt),
+                    (dialog, whichButton) -> showText(getString(R.string.coming_soon)));
 
-        alert.setNegativeButton(getResources().getString(R.string.close_receipt), (dialog, whichButton) -> {
-            // what ever you want to do with No option.
-        });
-
-        alert.show();
+            alert.setNegativeButton(getResources().getString(R.string.close_receipt), (dialog, whichButton) -> {
+                // what ever you want to do with No option.
+            });
+            alert.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         loadTransactionList();
     }
 
@@ -184,11 +185,13 @@ public class TransactionsActivity extends AppCompatActivity
             String pin = pinEditText.getText().toString();
             if (pin.length() != 4) {
                 onRefundFailed("PIN must have 4 digits");
+                return;
             }
             try {
                 double amount = Double.parseDouble(youEditTextValue);
                 if (amount != 0)
-                    refundPresenter.tryToRefund(pin, cardId, purchaseId, amount, uniqueId);
+                    refundPresenter.tryToRefund(pin, cardId, purchaseId, amount, uniqueId, fullName);
+//                    refundPresenter.refundTransaction(cardId, purchaseId, amount, uniqueId);
             } catch (NumberFormatException e) {
                 onRefundFailed(getResources().getString(R.string.incorrect_value));
             }

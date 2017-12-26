@@ -8,7 +8,7 @@ import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntit
 
 public interface RefundView extends BaseView {
 
-    void onRefundSuccess(PurchaseTransactionEntity transactionEntity);
+    void onRefundSuccess(PurchaseTransactionEntity transactionEntity, String fullName);
 
     void onRefundFailed(String message);
 

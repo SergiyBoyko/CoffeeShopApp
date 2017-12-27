@@ -180,6 +180,9 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
     }
 
     private void showReport(List<PurchaseTransactionEntity> transactionEntities, long lastTimeUpdate, String title) {
+        if (lastTimeUpdate == 0 && transactionEntities.size() > 0) {
+            lastTimeUpdate = transactionEntities.get(0).getDate();
+        }
         Date date = new Date(lastTimeUpdate);
         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
         double totalAmount = 0;
@@ -216,16 +219,14 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
             if (InternetConnectivityUtil.isConnected(this)) {
                 progressDialog.show();
                 reportPresenter.getXReportWithLastTimeUpdate(uniqueId);
-            }
-            else showText(getString(R.string.network_problems));
+            } else showText(getString(R.string.network_problems));
         });
 
         zButton.setOnClickListener(view -> {
             if (InternetConnectivityUtil.isConnected(this)) {
                 progressDialog.show();
                 reportPresenter.getZReportWithLastTimeUpdate(uniqueId);
-            }
-            else showText(getString(R.string.network_problems));
+            } else showText(getString(R.string.network_problems));
         });
     }
 
@@ -277,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         // Hide soft keyboard.
         hideTheKeyboard(getContext(), editText);
         // Make it non-editable again.
-//        hideTheKeyboardSecond(editText);
+        hideTheKeyboardSecond(editText);
     }
 
     public AppComponent getAppComponent() {

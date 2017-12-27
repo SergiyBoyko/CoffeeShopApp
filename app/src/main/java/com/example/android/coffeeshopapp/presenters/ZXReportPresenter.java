@@ -42,7 +42,7 @@ public class ZXReportPresenter extends BasePresenter<ZXReportView> {
                                 getXReport(employeeId, latTimeUpdate);
                             }
                         },
-                        new RxErrorAction(getView().getContext())));
+                        throwable -> getXReport(employeeId, 0)));
     }
 
     private void getXReport(String employeeId, long lastTimeUpdate) {
@@ -75,7 +75,7 @@ public class ZXReportPresenter extends BasePresenter<ZXReportView> {
 
     private void getZReport(String employeeId, long lastTimeUpdate) {
         addSubscription(reportDataSource.getZReport(employeeId)
-                .retryWhen(new RxRetryWithDelay())
+                .retryWhen(new RxRetryWithDelay(3, 3500))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(transactionEntities ->

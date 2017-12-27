@@ -76,6 +76,8 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
     private double balance;
     private String fullName;
 
+    String uniqueId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,9 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
                 .inject(this);
 
         presenter.setView(this);
+
+        uniqueId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         fullName = getIntent().getStringExtra(Constants.FULL_NAME_USER);
         cardId = getIntent().getStringExtra(Constants.CARD_ID);
@@ -241,8 +246,6 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         Double price = Double.parseDouble(amount);
 
         if ((intPartText.length() != 0 || fractPartText.length() != 0) && price > 0) {
-            String uniqueId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
             presenter.confirmTransaction(cardId, Double.parseDouble(amount), uniqueId);
         } else {
             transactionFailed(getString(R.string.too_low_amount));

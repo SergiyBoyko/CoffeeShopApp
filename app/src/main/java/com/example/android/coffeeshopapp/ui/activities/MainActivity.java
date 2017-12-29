@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         userInfoPresenter.setView(this);
         reportPresenter.setView(this);
         uniqueId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        String mainMessage = "Unique ID: " + uniqueId;
+        String mainMessage = getString(R.string.terminal_id) + uniqueId;
         ((TextView) findViewById(R.id.textView1)).setText(mainMessage);
 
         isKeyboardLock = true;

@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="INFO"
+                android:text="@string/info_logo"
                 android:textSize="32dp" />
 
             <LinearLayout
@@ -127,7 +127,7 @@
                     android:inputType="number"
                     android:padding="10dp"
                     android:singleLine="true"
-                    android:textSize="28dp" />
+                    android:textSize="@dimen/numeric_but_txt_size" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -135,7 +135,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="."
-                    android:textSize="28dp" />
+                    android:textSize="@dimen/numeric_but_txt_size" />
 
                 <EditText
                     android:id="@+id/amount_field_fractional"
@@ -147,13 +147,13 @@
                     android:maxLength="2"
                     android:padding="10dp"
                     android:singleLine="true"
-                    android:textSize="28dp" />
+                    android:textSize="@dimen/numeric_but_txt_size" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/transaction_but"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/button_height_main"
                 android:layout_below="@id/amount_panel"
                 android:layout_marginTop="10dp"
                 android:text="@string/confirm_but" />

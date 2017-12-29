@@ -20,17 +20,17 @@
             <Button
                 android:id="@+id/x_report_but"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/button_height_main"
                 android:layout_marginBottom="10dp"
-                android:text="X REPORT" />
+                android:text="@string/x_report_btn" />
 
             <Button
                 android:id="@+id/z_report_but"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/button_height_main"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="10dp"
-                android:text="Z REPORT" />
+                android:text="@string/z_report_btn" />
 
 
             <TextView
@@ -76,7 +76,7 @@
             <Button
                 android:id="@+id/but_enter"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/button_height_main"
                 android:layout_marginTop="20dp"
                 android:text="@string/enter_but" />
 
@@ -92,15 +92,15 @@
             <Button
                 android:id="@+id/view_all_trans_but"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/button_height_main"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
-                android:text="VIEW all transactions" />
+                android:text="@string/view_all_transactions_btn" />
 
             <ImageButton
                 android:id="@+id/button_show_ime"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/button_height_main"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="10dp"

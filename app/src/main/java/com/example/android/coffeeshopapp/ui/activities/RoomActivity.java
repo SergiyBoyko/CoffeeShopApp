@@ -144,11 +144,17 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         alert.setTitle(getResources().getString(R.string.receipt_title));
 
         alert.setPositiveButton(getResources().getString(R.string.print_receipt),
-                (dialog, whichButton) -> showText("Coming soon."));
+                (dialog, whichButton) -> {
+                    showText("Coming soon.");
+                    // TODO: 29.12.2017 implement print action
+                    finish();
+                });
 
-        alert.setNegativeButton(getResources().getString(R.string.close_receipt), (dialog, whichButton) -> {
-            // what ever you want to do with No option.
-        });
+        alert.setNegativeButton(getResources().getString(R.string.close_receipt),
+                (dialog, whichButton) -> {
+                    // what ever you want to do with No option.
+                    finish();
+                });
 
         alert.show();
         presenter.getBalance(cardId);

@@ -123,11 +123,17 @@ public class TransactionsActivity extends AppCompatActivity
             alert.setTitle(getResources().getString(R.string.receipt_title));
 
             alert.setPositiveButton(getResources().getString(R.string.print_receipt),
-                    (dialog, whichButton) -> showText(getString(R.string.coming_soon)));
+                    (dialog, whichButton) -> {
+                        showText(getString(R.string.coming_soon));
+                        // TODO: 29.12.2017 implement print action
+                        finish();
+                    });
 
-            alert.setNegativeButton(getResources().getString(R.string.close_receipt), (dialog, whichButton) -> {
-                // what ever you want to do with No option.
-            });
+            alert.setNegativeButton(getResources().getString(R.string.close_receipt),
+                    (dialog, whichButton) -> {
+                        // what ever you want to do with No option.
+                        finish();
+                    });
             alert.show();
         } catch (Exception e) {
             e.printStackTrace();

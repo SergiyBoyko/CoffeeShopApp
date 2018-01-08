@@ -3,13 +3,10 @@ package com.example.android.coffeeshopapp.ui.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +28,7 @@ import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntit
 import com.example.android.coffeeshopapp.model.entities.ResponseEntity;
 import com.example.android.coffeeshopapp.presenters.UserInfoPresenter;
 import com.example.android.coffeeshopapp.presenters.ZXReportPresenter;
+import com.example.android.coffeeshopapp.ui.activities.printer.TextActivity;
 import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
 import com.example.android.coffeeshopapp.views.UserInfoView;
 import com.example.android.coffeeshopapp.views.ZXReportView;
@@ -198,15 +196,20 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         receiptMessage.append("\nTotal: ").append(String.format(Locale.ENGLISH, "%.2f", totalAmount));
 
         View promptView = LayoutInflater.from(this).inflate(R.layout.zx_report_dialog, null);
-        TextView message = (TextView) promptView.findViewById(R.id.textmsg);
-        message.setText(receiptMessage);
+        TextView messageTextView = (TextView) promptView.findViewById(R.id.textmsg);
+        messageTextView.setText(receiptMessage);
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(promptView);
         alert.setTitle(title);
 
         alert.setPositiveButton(getResources().getString(R.string.print_receipt),
-                (dialog, whichButton) -> showText(getString(R.string.coming_soon)));
+                (dialog, whichButton) -> {
+                    final String message = receiptMessage.toString();
+                    Intent intent = new Intent(this, TextActivity.class);
+                    intent.putExtra(Constants.PRINT_TEXT_EXTRA, message);
+                    startActivity(intent);
+                });
 
         alert.setNegativeButton(getResources().getString(R.string.close_receipt), (dialog, whichButton) -> {
             // what ever you want to do with No option.
@@ -278,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         // Hide soft keyboard.
         hideTheKeyboard(getContext(), editText);
         // Make it non-editable again.
-        hideTheKeyboardSecond(editText);
+//        hideTheKeyboardSecond(editText);
     }
 
     public AppComponent getAppComponent() {

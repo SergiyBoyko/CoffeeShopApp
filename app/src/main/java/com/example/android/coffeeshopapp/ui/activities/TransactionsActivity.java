@@ -1,6 +1,10 @@
 package com.example.android.coffeeshopapp.ui.activities;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -23,11 +27,15 @@ import com.example.android.coffeeshopapp.di.module.PresentersModule;
 import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntity;
 import com.example.android.coffeeshopapp.presenters.RefundPresenter;
 import com.example.android.coffeeshopapp.presenters.TransactionListPresenter;
+import com.example.android.coffeeshopapp.ui.activities.printer.TextActivity;
+import com.example.android.coffeeshopapp.utils.printer.BluetoothUtil;
+import com.example.android.coffeeshopapp.utils.printer.BytesUtil;
 import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
 import com.example.android.coffeeshopapp.views.RefundView;
 import com.example.android.coffeeshopapp.views.TransactionListView;
 import com.example.android.coffeeshopapp.widgets.adapters.TransactionListAdapter;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -116,16 +124,19 @@ public class TransactionsActivity extends AppCompatActivity
             SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
             showText(String.format(Locale.ENGLISH, "Refund Success: %.2f", transactionEntity.getPrice()));
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setMessage("CARD ID: " + transactionEntity.getBadgeId()
+            String message = "CARD ID: " + transactionEntity.getBadgeId()
                     + "\nFull Name: " + fullName
                     + "\nAmount: -" + String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice())
-                    + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate())));
+                    + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate()));
+            alert.setMessage(message);
             alert.setTitle(getResources().getString(R.string.receipt_title));
 
             alert.setPositiveButton(getResources().getString(R.string.print_receipt),
                     (dialog, whichButton) -> {
-                        showText(getString(R.string.coming_soon));
                         // TODO: 29.12.2017 implement print action
+                        Intent intent = new Intent(this, TextActivity.class);
+                        intent.putExtra(Constants.PRINT_TEXT_EXTRA, message);
+                        startActivity(intent);
                         finish();
                     });
 

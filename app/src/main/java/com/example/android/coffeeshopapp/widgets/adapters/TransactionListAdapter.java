@@ -93,8 +93,6 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
                                 entity.getLastName());
             });
         }
-
-
     }
 
     public interface OnRefundClickListener {

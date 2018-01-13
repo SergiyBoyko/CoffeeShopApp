@@ -23,4 +23,5 @@ public class Constants {
     public static final String Z_REPORT = "Z REPORT";
 
     public static final String PRINT_TEXT_EXTRA = "print_text_extra";
+    public static final String RECEIPT_FOOTER = "\nHealthy Choice\nThank You for\npatronage\n\n";
 }

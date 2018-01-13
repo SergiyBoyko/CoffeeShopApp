@@ -38,16 +38,9 @@
     <string name="toast_4">Bluetooth device not detected. Please open Bluetooth!</string>
     <string name="toast_5">Not Found InnterPrinter!</string>
     <string name="toast_6">Bluetooth connect failed!</string>
-    <string name="toast_7"> Only a single Qr code is printed for the AIDL mode</string>
+    <string name="toast_7">Only a single Qr code is printed for the AIDL mode</string>
     <string name="toast_8">Now QrCode size must be less than 7!</string>
+    <string name="bluetooth_connected">Bluetooth printer connected</string>
+    <string name="choose_print_method">Choose print method</string>
 
-    <string name="confirm">Confirm</string>
-    <string name="input_order">input epson command:</string>
-    <string name="text_title">Text Test</string>
-    <string name="bold_text">bold</string>
-    <string name="size_text">text size</string>
-    <string name="characterset">char set</string>
-    <string name="type_text">text typeface</string>
-    <string name="underline_text">underline</string>
-    <string name="print">Print</string>
 </resources>

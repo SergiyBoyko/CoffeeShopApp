@@ -3,10 +3,10 @@ package com.example.android.coffeeshopapp.ui.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +28,8 @@ import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntit
 import com.example.android.coffeeshopapp.model.entities.ResponseEntity;
 import com.example.android.coffeeshopapp.presenters.UserInfoPresenter;
 import com.example.android.coffeeshopapp.presenters.ZXReportPresenter;
-import com.example.android.coffeeshopapp.ui.activities.printer.TextActivity;
 import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
+import com.example.android.coffeeshopapp.utils.printer.PrintHandler;
 import com.example.android.coffeeshopapp.views.UserInfoView;
 import com.example.android.coffeeshopapp.views.ZXReportView;
 
@@ -44,7 +44,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements KeyboardWatcher.OnKeyboardToggleListener,
-        UserInfoView, ZXReportView {
+        UserInfoView, ZXReportView, PrintHandler.CallbackToClose {
 
     // Find out our editable field.
     @BindView(R.id.card_id)
@@ -166,6 +166,11 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
     }
 
     @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
     public void showZReport(List<PurchaseTransactionEntity> transactionEntities, long lastTimeUpdate) {
         progressDialog.hide();
         showReport(transactionEntities, lastTimeUpdate, Constants.Z_REPORT);
@@ -206,9 +211,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardWatcher.O
         alert.setPositiveButton(getResources().getString(R.string.print_receipt),
                 (dialog, whichButton) -> {
                     final String message = receiptMessage.toString();
-                    Intent intent = new Intent(this, TextActivity.class);
-                    intent.putExtra(Constants.PRINT_TEXT_EXTRA, message);
-                    startActivity(intent);
+                    PrintHandler.printText(MainActivity.this, message, null, false);
                 });
 
         alert.setNegativeButton(getResources().getString(R.string.close_receipt), (dialog, whichButton) -> {

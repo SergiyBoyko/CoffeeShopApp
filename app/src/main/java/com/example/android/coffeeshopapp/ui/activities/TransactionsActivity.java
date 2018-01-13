@@ -1,10 +1,6 @@
 package com.example.android.coffeeshopapp.ui.activities;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -27,15 +23,12 @@ import com.example.android.coffeeshopapp.di.module.PresentersModule;
 import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntity;
 import com.example.android.coffeeshopapp.presenters.RefundPresenter;
 import com.example.android.coffeeshopapp.presenters.TransactionListPresenter;
-import com.example.android.coffeeshopapp.ui.activities.printer.TextActivity;
-import com.example.android.coffeeshopapp.utils.printer.BluetoothUtil;
-import com.example.android.coffeeshopapp.utils.printer.BytesUtil;
 import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
+import com.example.android.coffeeshopapp.utils.printer.PrintHandler;
 import com.example.android.coffeeshopapp.views.RefundView;
 import com.example.android.coffeeshopapp.views.TransactionListView;
 import com.example.android.coffeeshopapp.widgets.adapters.TransactionListAdapter;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -51,8 +44,8 @@ import butterknife.ButterKnife;
  * Created by dev_serhii on 12.12.2017.
  */
 
-public class TransactionsActivity extends AppCompatActivity
-        implements TransactionListView, TransactionListAdapter.OnRefundClickListener, RefundView {
+public class TransactionsActivity extends AppCompatActivity implements TransactionListView,
+        TransactionListAdapter.OnRefundClickListener, RefundView, PrintHandler.CallbackToClose {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -118,6 +111,11 @@ public class TransactionsActivity extends AppCompatActivity
     }
 
     @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
     public void onRefundSuccess(PurchaseTransactionEntity transactionEntity, String fullName) {
 //        showText("onRefundSuccess " + (transactionEntity != null));
         try {
@@ -133,11 +131,7 @@ public class TransactionsActivity extends AppCompatActivity
 
             alert.setPositiveButton(getResources().getString(R.string.print_receipt),
                     (dialog, whichButton) -> {
-                        // TODO: 29.12.2017 implement print action
-                        Intent intent = new Intent(this, TextActivity.class);
-                        intent.putExtra(Constants.PRINT_TEXT_EXTRA, message);
-                        startActivity(intent);
-                        finish();
+                        PrintHandler.printText(TransactionsActivity.this, message, this, true);
                     });
 
             alert.setNegativeButton(getResources().getString(R.string.close_receipt),

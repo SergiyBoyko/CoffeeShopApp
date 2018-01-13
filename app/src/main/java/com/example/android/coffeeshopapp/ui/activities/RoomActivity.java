@@ -1,9 +1,6 @@
 package com.example.android.coffeeshopapp.ui.activities;
 
 import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,13 +25,10 @@ import com.example.android.coffeeshopapp.di.component.DaggerPresentersComponent;
 import com.example.android.coffeeshopapp.di.module.PresentersModule;
 import com.example.android.coffeeshopapp.model.entities.PurchaseTransactionEntity;
 import com.example.android.coffeeshopapp.presenters.TransactionPresenter;
-import com.example.android.coffeeshopapp.ui.activities.printer.TextActivity;
-import com.example.android.coffeeshopapp.utils.printer.BluetoothUtil;
-import com.example.android.coffeeshopapp.utils.printer.BytesUtil;
 import com.example.android.coffeeshopapp.utils.InternetConnectivityUtil;
+import com.example.android.coffeeshopapp.utils.printer.PrintHandler;
 import com.example.android.coffeeshopapp.views.TransactionView;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -49,7 +43,7 @@ import butterknife.ButterKnife;
  */
 
 public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.OnKeyboardToggleListener, TransactionView,
-        View.OnClickListener {
+        View.OnClickListener, PrintHandler.CallbackToClose {
 
     @BindView(R.id.amount_field_int)
     EditText intPartText;
@@ -138,6 +132,11 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
     }
 
     @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
     public void transactionSuccess(PurchaseTransactionEntity transactionEntity) {
         progressDialog.hide();
 //        showText(message);
@@ -147,17 +146,14 @@ public class RoomActivity extends AppCompatActivity implements KeyboardWatcher.O
         String message = "CARD ID: " + transactionEntity.getBadgeId()
                 + "\nFull Name: " + fullName
                 + "\nAmount: " + String.format(Locale.ENGLISH, "%.2f", transactionEntity.getPrice())
-                + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate()));
+                + "\nDate: " + dateFormat.format(new Date(transactionEntity.getDate()))
+                + Constants.RECEIPT_FOOTER;
         alert.setMessage(message);
         alert.setTitle(getResources().getString(R.string.receipt_title));
 
         alert.setPositiveButton(getResources().getString(R.string.print_receipt),
                 (dialog, whichButton) -> {
-                    // TODO: 29.12.2017 implement print action
-                    Intent intent = new Intent(this, TextActivity.class);
-                    intent.putExtra(Constants.PRINT_TEXT_EXTRA, message);
-                    startActivity(intent);
-                    finish();
+                    PrintHandler.printText(RoomActivity.this, message, this, true);
                 });
 
         alert.setNegativeButton(getResources().getString(R.string.close_receipt),
